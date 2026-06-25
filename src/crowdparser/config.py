@@ -14,6 +14,10 @@ class YouTubeSourceConfig(BaseModel):
     search_limit: int = 20            # max videos per search query
     search_lang: str = "pl"           # relevanceLanguage for Data API
     languages: list[str] = ["pl", "uk", "ru", "en"]
+    fetch_metadata: bool = True       # title + description + channel
+    description_fallback: bool = True # use description if no transcript
+    fetch_comments: bool = False      # top comments as separate RawItems
+    comments_limit: int = 50          # max comments per video
 
 
 class TelegramSourceConfig(BaseModel):

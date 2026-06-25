@@ -15,6 +15,10 @@ sources:
     search_limit: 15
     search_lang: pl
     languages: [pl, uk, ru, en]
+    fetch_metadata: true
+    description_fallback: true
+    fetch_comments: true
+    comments_limit: 30
 
   - type: telegram
     channels:
