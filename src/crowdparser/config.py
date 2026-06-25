@@ -38,7 +38,25 @@ class RedditSourceConfig(BaseModel):
 class WebSourceConfig(BaseModel):
     type: Literal["web"] = "web"
     urls: list[str] = []
-    use_jina: bool = True             # fallback to Jina Reader on errors
+    use_jina: bool = True              # fallback to Jina Reader on errors
+
+    # Pagination
+    follow_pagination: bool = False    # follow "next page" links
+    max_pages: int = 5                 # max pages per start URL
+
+    # Rate limiting
+    rate_limit_delay: float = 1.0     # seconds between requests
+    respect_robots: bool = True        # honour robots.txt
+
+    # Thread / forum structure
+    extract_thread_structure: bool = False  # split posts into separate RawItems
+    post_selector: str = ""            # CSS selector for individual post elements
+    next_page_selector: str = ""       # CSS selector for next-page link
+
+    # Sitemap discovery
+    sitemap_url: str = ""              # parse sitemap.xml → add URLs to queue
+    sitemap_filter: str = ""           # keep only URLs containing this substring
+    sitemap_limit: int = 100           # max URLs from sitemap
 
 
 SourceConfig = Union[YouTubeSourceConfig, TelegramSourceConfig, RedditSourceConfig, WebSourceConfig]

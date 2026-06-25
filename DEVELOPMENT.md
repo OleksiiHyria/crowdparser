@@ -60,16 +60,22 @@ Env-переменные: `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_US
 
 ---
 
-### ⚠️ Web — базовая реализация, нужна доработка
+### ✅ Web — проработан полностью
 
-| Фича | Статус |
-|---|---|
-| Fetch HTML + Jina Reader fallback | ✅ |
-| Очистка HTML → чистый текст (без тегов) | ❌ (сейчас сырой HTML в content) |
-| Пагинация / следование по ссылкам | ❌ |
-| Структура форума (вопрос → список ответов) | ❌ |
-| Sitemap-парсинг | ❌ |
-| Rate limiting + robots.txt | ❌ |
+| Фича | Статус | Примечание |
+|---|---|---|
+| Fetch HTML + Jina Reader fallback | ✅ | Jina как fallback при ошибке прямого запроса |
+| Очистка HTML → чистый текст | ✅ | trafilatura primary, regex fallback без зависимостей |
+| Пагинация / следование по ссылкам | ✅ | `follow_pagination: true`, `max_pages`, rel="next" + class="next" + custom selector |
+| Структура форума (вопрос → список ответов) | ✅ | `extract_thread_structure: true` + `post_selector: "div.post"` → отдельные RawItem |
+| Sitemap-парсинг | ✅ | `sitemap_url` + `sitemap_filter` + `sitemap_limit` |
+| Rate limiting | ✅ | `rate_limit_delay: 1.0` сек между страницами |
+| robots.txt | ✅ | `respect_robots: true` (дефолт), кэш по домену |
+
+Опциональные зависимости: `pip install crowdparser[web]` → устанавливает `trafilatura` + `selectolax`.
+Без них: regex-очистка HTML и pagination работают, post_selector — нет.
+
+Env-переменные: не требуются.
 
 ---
 
@@ -88,9 +94,9 @@ Env-переменные: `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, `REDDIT_US
 
 ## Рекомендуемый порядок доработки
 
-1. **Web** — самый универсальный (форумы, блоги, Quora, любой сайт). Нужна очистка HTML и пагинация.
-2. **Telegram** — ключевой для PLTest (TG-каналы про Karta Polaka).
-3. **Reddit** — вложенные комментарии + сортировка.
+1. ~~**Web**~~ ✅ Готово.
+2. **Telegram** — ключевой для PLTest (TG-каналы про Karta Polaka). Нужны: поиск, треды, метаданные, медиа.
+3. **Reddit** — вложенные комментарии + сортировка (top/hot/new/controversial).
 4. **Substack** — простой RSS, быстро сделать.
 5. **Podcasts** — отдельный заход (Whisper API).
 6. **Facebook** — отдельный заход (Playwright).

@@ -24,7 +24,9 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+web = ["trafilatura>=1.6", "selectolax>=0.3"]
 dev = ["pytest>=8", "pytest-asyncio>=0.23", "ruff>=0.4"]
+all = ["trafilatura>=1.6", "selectolax>=0.3"]
 
 [project.scripts]
 crowdparser = "crowdparser.cli:main"
