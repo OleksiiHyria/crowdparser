@@ -1,6 +1,6 @@
 """YAML-driven pipeline config — everything project-specific lives here."""
 from __future__ import annotations
-from typing import Any, Literal
+from typing import Any, Literal, Union
 from pydantic import BaseModel, Field
 import yaml
 
@@ -34,7 +34,7 @@ class WebSourceConfig(BaseModel):
     use_jina: bool = True             # fallback to Jina Reader on errors
 
 
-SourceConfig = YouTubeSourceConfig | TelegramSourceConfig | RedditSourceConfig | WebSourceConfig
+SourceConfig = Union[YouTubeSourceConfig, TelegramSourceConfig, RedditSourceConfig, WebSourceConfig]
 
 
 class ExtractorConfig(BaseModel):
