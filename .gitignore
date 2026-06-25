@@ -1,0 +1,10 @@
+__pycache__/
+*.egg-info/
+dist/
+.venv/
+.env
+.env.*
+.seen_hashes.json
+candidates_output.json
+crowdparser_session.*
+*.session

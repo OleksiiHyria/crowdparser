@@ -1,0 +1,67 @@
+name: pltest-consul
+description: Collect Karta Polaka / citizenship interview questions from public sources
+
+sources:
+  - type: youtube
+    video_ids: []
+    channel_ids: []
+    channel_limit: 15
+    languages: [pl, uk, ru, en]
+
+  - type: telegram
+    channels:
+      - kartapolaka_ua
+      - kartapolaka_info
+    limit: 300
+
+  - type: reddit
+    subreddits:
+      - poland
+      - Polska
+      - ukraina
+    search_queries:
+      - "karta polaka wywiad pytania"
+      - "karta polaka interview questions"
+      - "rozmowa konsul karta polaka"
+    limit: 100
+
+  - type: web
+    urls: []   # add specific forum threads here
+    use_jina: true
+
+extractor:
+  model: claude-sonnet-4-6
+  min_confidence: 0.65
+  max_candidates_per_item: 8
+  prompt: |
+    Extract questions that a Polish consul asked during a Karta Polaka or Polish citizenship interview.
+    Only include questions actually reported by a real person as asked by a consul/officer.
+    Do NOT include questions from test prep materials, books, or hypothetical lists.
+
+    For each extracted question include in metadata:
+      - suspected_city: city of the consulate if mentioned (or null)
+      - exam_type: "karta_polaka" or "obywatelstwo" based on context
+      - tag: "tricky" if the question is unusual/unexpected, "frequent" if it appears standard
+
+    Mark confidence lower (0.6-0.7) if the source is paraphrasing or unsure.
+    Mark confidence higher (0.85-1.0) if the person quotes the question verbatim.
+
+output:
+  type: json
+  path: candidates_output.json
+  append: true
+
+dedup:
+  enabled: true
+  store: json
+  store_path: .seen_hashes.json
+
+field_map:
+  text: question_text
+  context_quote: context_quote
+  source_url: source_url
+  source_type: source_type
+  confidence: confidence
+  tags: tags
+  metadata.suspected_city: suspected_city
+  metadata.exam_type: exam_type
