@@ -22,9 +22,32 @@ class YouTubeSourceConfig(BaseModel):
 
 class TelegramSourceConfig(BaseModel):
     type: Literal["telegram"] = "telegram"
-    channels: list[str] = []          # @channel_handle or channel_id
-    limit: int = 200                  # messages per channel
-    # Credentials passed via env: TELEGRAM_API_ID, TELEGRAM_API_HASH
+    channels: list[str] = []           # @channel_handle or channel_id
+
+    # Per-channel message limit
+    limit: int = 200
+
+    # Keyword search within each channel
+    search_queries: list[str] = []     # search term → run against every channel in `channels`
+    search_limit: int = 100            # max results per query per channel
+
+    # Channel discovery: find new channels by keyword
+    discover_channels: list[str] = []  # search Telegram globally for matching channels
+    discover_limit: int = 5            # max channels to discover per query
+
+    # Thread / replies
+    fetch_replies: bool = False        # fetch replies for every fetched message
+    reply_limit: int = 20              # max replies per message
+
+    # Metadata enrichment
+    fetch_metadata: bool = True        # include views, reactions, forwards, forwarded_from
+    include_media_captions: bool = True  # include text from photo/video/doc messages
+
+    # Filtering
+    min_views: int = 0                 # skip messages with fewer views (0 = no filter)
+    min_length: int = 30               # skip messages shorter than this (chars)
+
+    # Credentials passed via env: TELEGRAM_API_ID, TELEGRAM_API_HASH, TELEGRAM_SESSION
 
 
 class RedditSourceConfig(BaseModel):
