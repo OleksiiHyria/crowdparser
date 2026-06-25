@@ -10,6 +10,9 @@ class YouTubeSourceConfig(BaseModel):
     video_ids: list[str] = []
     channel_ids: list[str] = []       # fetch N latest videos from channel
     channel_limit: int = 10           # videos per channel
+    search_queries: list[str] = []    # keyword search → video IDs
+    search_limit: int = 20            # max videos per search query
+    search_lang: str = "pl"           # relevanceLanguage for Data API
     languages: list[str] = ["pl", "uk", "ru", "en"]
 
 

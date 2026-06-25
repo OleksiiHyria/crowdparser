@@ -6,6 +6,14 @@ sources:
     video_ids: []
     channel_ids: []
     channel_limit: 15
+    search_queries:
+      - "karta polaka wywiad pytania konsul"
+      - "karta polaka rozmowa konsulat doświadczenie"
+      - "karta polaka interview questions experience"
+      - "карта поляка вопросы консула интервью"
+      - "карта поляка розмова консул питання"
+    search_limit: 15
+    search_lang: pl
     languages: [pl, uk, ru, en]
 
   - type: telegram
